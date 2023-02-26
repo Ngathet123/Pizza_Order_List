@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+</style>
+<body>
+    <div id="app">
+        <h3>Todo List</h3>
+        <input type="text" placeholder="Enter Pizza Name" v-model="pizzaData.name">
+        <small style="color: red;" v-if="validation.nameSts">Pizza name is required!</small> <br>
+        <input type="number" placeholder="Enter Pizza price" v-model="pizzaData.price">
+        <small style="color: red;" v-if="validation.priceSts">Price Amount is required!</small> <br>
+        <button @click="Create()">Add</button>
+
+        <hr>
+
+        <table class="table" border="2px">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in items">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.price}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+<!-- development version, includes helpful console warnings -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+    let app = new Vue({
+        el : "#app",
+        data : {
+           pizzaData : {
+               name : "",
+               price : "",
+           },
+           items : [{
+           }],
+           validation : {
+            nameSts : false,
+            priceSts : false,
+           }
+        },
+        methods : {
+
+            Create(){
+                if(this.pizzaData.name == ""){
+                   this.validation.nameSts = true
+                }else{
+                    this.validation.nameSts = false
+                }
+
+                if(this.pizzaData.price == ""){
+                   this.validation.priceSts = true
+                }else{
+                    this.validation.priceSts = false
+                }
+
+
+                if (!this.validation.nameSts && !this.validation.priceSts){
+                    this.items.push({
+                    id : this.items.length,
+                    name : this.pizzaData.name,
+                    price : this.pizzaData.price,
+                })
+                }
+
+                     this.Clear()
+
+            },
+
+            
+            Clear(){
+                this.pizzaData.name="",
+                this.pizzaData.price=""
+            },
+
+        // validationCheck(){            // tinary Operator 
+        //     this.validation.nameSts = this.pizzaData.name = "" ? true : false
+        //             this.validation.priceSts= this.pizzaData.price = "" ? true : false
+        // }
+        }
+    })
+</script>
+</html>
